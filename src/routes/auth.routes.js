@@ -11,7 +11,8 @@ router.post("/logout", (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     secure: true, // production me true
-    sameSite: "lax",
+    sameSite: "none",
+    // sameSite: "lax",
     maxAge: 0,
   });
   // ⚡ Return JSON always
