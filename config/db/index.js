@@ -1,11 +1,11 @@
 const mongo = require('mongoose')
-
+const logger = require('../../src/logger/logger')
 const connectionInstance = async () => {
     try {
         await mongo.connect(process.env.MONGO_URI)
-        console.log('MONGO DB CONNECT SUCCESSFULLY')        
+        logger.info('MONGO DB CONNECT SUCCESSFULLY')        
     } catch (error) {
-        console.log('SERVER IS NOT CONNECTED')
+        logger.error('SERVER IS NOT CONNECTED')
         setTimeout(()=> process.exit(1), 2000)        
     }
 

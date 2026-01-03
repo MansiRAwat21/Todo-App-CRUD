@@ -2,14 +2,12 @@ const User = require("../model/user.model");
 const { createJwt } = require("../utils/token");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
+const logger = require('../logger/logger')
 
 const create = async (req, res) => {
     try {
-        const { email, password, ...rest } = req.body;
-        console.log(email,'this is muy email')
-        // console.log(...rest, '...rest')
-        const existingUser = await User.findOne({ email })
-        console.log(existingUser, 'existingUser')
+        const { email, password, ...rest } = req.body;  
+        const existingUser = await User.findOne({ email })        
         if (existingUser) {
             return res.status(400).json({ message: "This email is already registered. Please login instead." })
         }
@@ -27,27 +25,24 @@ const create = async (req, res) => {
             email,
             password: hashedPassword,
 
-        })
-        console.log(user,'this is my user')
-        const userResponse = { ...user.toObject() };
-        console.log(userResponse,'userResponse')
+        })        
+        const userResponse = { ...user.toObject() };        
         delete userResponse.password; // response me password nhi aayega more secure
         return res.status(201).json(userResponse);
         // return res.status(201).json(user);
     } catch (error) {
-        console.log("This is create error", error);
+        logger.error("This is create error", error);
         return res.status(500).json(error);
     }
 };
 
 const getAll = async (req, res) => {
-    try {
-        console.log(req.user, "user");
+    try {      
         const getUser = await User.find({ isActive: true });
         // const userData = getUser.filter((i)=> i.isActive == true)
         return res.status(200).json(getUser);
     } catch (error) {
-        console.log("user not found", error);
+        logger.error("user not found", error);
         return res.status(500).json(error);
     }
 };
@@ -58,7 +53,7 @@ const getById = async (req, res) => {
         const getByIdUser = await User.findById(id);
         return res.status(200).json(getByIdUser);
     } catch (error) {
-        console.log("user not found", error);
+        logger.error("user not found", error);
         return res.status(404).json(error);
     }
 };
@@ -69,7 +64,7 @@ const updateById = async (req, res) => {
         const updateByIdUser = await User.findByIdAndUpdate(id, { name, email });
         return res.status(200).json(updateByIdUser);
     } catch (error) {
-        console.log("user not found", error);
+        logger.error("user not found", error);
         return res.status(404).json(error);
     }
 };
@@ -94,7 +89,6 @@ const login = async (req, res) => {
             email: user.email,
         });
 
-        // console.log(token, 'token')
         // return res.status(200).json(token)
         res.cookie("token", token, {
             httpOnly: true, // JS cannot access → secure
@@ -106,7 +100,7 @@ const login = async (req, res) => {
         // return res.status(404).json({message:"not authorized"})
         return res.status(200).json({ message: "Logged in" });
     } catch (error) {
-        console.log("user not found", error);
+        logger.error("user not found", error);
         return res.status(404).json(error);
     }
 };
@@ -120,7 +114,7 @@ const deleteById = async (req, res) => {
         });
         return res.status(200).json(userDeleteById);
     } catch (error) {
-        console.log("error while deleting user", error);
+        logger.error("error while deleting user", error);
         return res.status(500).json(error);
     }
 };

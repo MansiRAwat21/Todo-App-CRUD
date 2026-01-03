@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Todo = require("../model/todo.model");
+const logger = require('../logger/logger')
 
 const create = async (req, res) => {
   try {
     const createTodo = await Todo.create(req.body);
     return res.status(201).json(createTodo);
   } catch (error) {
-    console.log(error, "Error while creating todo");
+    logger.error(error, "Error while creating todo");
     return res.status(500).json(error);
   }
 };
@@ -21,17 +22,17 @@ const getAllByEmail = async (req, res) => {
     return res.status(200).json(getAllForUser);
     // }
   } catch (error) {
-    console.log(error, "Error while find todo");
+    logger.error(error, "Error while find todo");
     return res.status(500).json(error);
   }
 };
 const getAll = async (req, res) => {
   try {
-    console.log(req.user, "user");
+    logger.error(req.user, "user");
     const getUser = await Todo.find({});
     return res.status(200).json(getUser);
   } catch (error) {
-    console.log("user not found", error);
+    logger.error("user not found", error);
     return res.status(500).json(error);
   }
 };
@@ -107,10 +108,10 @@ const findAndUpdate = async (req, res) => {
   const updates = req.body;
   try {
     const findTodo = await Todo.findByIdAndUpdate(id, updates);
-    console.log(findTodo);
+    logger.error(findTodo);
     return res.status(200).json(findTodo);
   } catch (error) {
-    console.log(error, "Error while find todo");
+    logger.error(error, "Error while find todo");
     return res.status(500).json(error);
   }
 };

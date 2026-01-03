@@ -41,3 +41,7 @@ coverage/
 
 # misc
 *.env
+
+# Logs
+logs/
+*.log

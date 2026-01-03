@@ -1,6 +1,6 @@
 // const { bookSchema } = require('../utils/validateRequest')
 const Book = require('../model/book.model')
-
+const logger = require('../logger/logger')
 const createBook = async (req, res) => {
     try {
         // await bookSchema.validateAsync(req.body)
@@ -10,7 +10,7 @@ const createBook = async (req, res) => {
         // if (error.isJoi) {
         //     return res.status(400).send({ message: error.details[0].message })
         // }
-        console.log("Error while Creating book data", error)
+        logger.error("Error while Creating book data", error)
         return res.status(500).json(error)
     }
 }
@@ -24,7 +24,7 @@ const getbookbyid = async (req, res) => {
         }
         return res.status(200).json(bookById)
     } catch (error) {
-        console.log("Error while get the book data", error)
+        logger.error("Error while get the book data", error)
         return res.status(500).json(error)
     }
 }
@@ -55,7 +55,7 @@ const getbookbyName = async (req, res) => {
 
         return res.status(200).json(book);
     } catch (error) {
-        console.log("Error while getting book data", error);
+        logger.error("Error while getting book data", error);
         return res.status(500).json(error);
     }
 };
@@ -79,7 +79,7 @@ const getAllBook = async (req, res) => {
         })
         // return res.status(200).json(getallbook)
     } catch (error) {
-        console.log("Error while get all book data", error)
+        logger.error("Error while get all book data", error)
         return res.status(500).json(error)
     }
 }
@@ -90,7 +90,7 @@ const deleteBook = async (req, res) => {
         const deleteData = await Book.findByIdAndUpdate(id, { isActive: false })
         return res.status(200).json(deleteData)
     } catch (error) {
-        console.log(error, 'this is error while delete book data')
+        logger.error(error, 'this is error while delete book data')
         return res.status(500).json(error)
     }
 }

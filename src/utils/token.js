@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
-
+const logger = require('../logger/logger')
 dotenv.config()
 
 const jwtSecret = process.env.JWT_KEY
@@ -11,7 +11,7 @@ const createJwt = (payload) => {
         return jwt.sign(payload, jwtSecret, {expiresIn : expire})
         
     } catch (error) {
-        console.log(error,'jwt error')
+        logger.error(error,'jwt error')
         return false
     }
 }

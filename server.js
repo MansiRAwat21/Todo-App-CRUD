@@ -3,6 +3,7 @@ const express = require('express')
 const http = require('http')
 const dotenv = require('dotenv')
 const middleware  = require('./src/utils/middleware.js')
+const logger = require("./src/logger/logger.js");
 
 const cookieParser = require("cookie-parser");
 dotenv.config()
@@ -34,9 +35,9 @@ const server = http.createServer(app)
 const callingFunction = async () => {
     try {
         await connectionInstance()
-        server.listen(process.env.PORT || 8000, '0.0.0.0', () => { console.log(`PORT LISTEN ON ${process.env.PORT}`) })
+        server.listen(process.env.PORT || 8000, '0.0.0.0', () => { logger.info(`PORT LISTEN ON ${process.env.PORT}`) })
     } catch (error) {
-        console.log(error, 'Error')
+        logger.error(error, 'Error')
     }
 }
 
