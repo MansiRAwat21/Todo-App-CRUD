@@ -92,8 +92,8 @@ const login = async (req, res) => {
         // return res.status(200).json(token)
         res.cookie("token", token, {
             httpOnly: true, // JS cannot access → secure
-            secure: false, // dev: false, production: true (HTTPS)
-            sameSite: "lax", // CSRF mitigation
+            secure: true, // dev: false, production: true (HTTPS)
+            sameSite: "none", // CSRF mitigation
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
         // }
