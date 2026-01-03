@@ -5,7 +5,7 @@ const body_parser = require('body-parser')
 const middleware = [
     // cors(),
     cors({
-    origin: "http://localhost:5174", // frontend ka exact URL
+    origin: "https://taskflow-react.vercel.app/", // frontend ka exact URL
     credentials: true, // allow cookies / authorization header
   }),
     body_parser.json(),
