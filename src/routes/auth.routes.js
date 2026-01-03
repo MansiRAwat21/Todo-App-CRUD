@@ -10,7 +10,7 @@ router.get("/me", authMiddleware, (req, res) => {
 router.post("/logout", (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
-    secure: false, // production me true
+    secure: true, // production me true
     sameSite: "lax",
     maxAge: 0,
   });
